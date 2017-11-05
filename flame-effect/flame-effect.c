@@ -2,8 +2,7 @@
 #include <unistd.h>
 
 /*
-ToDO
-- Not working: its printing to nearest colour not true color :-(
+ToDo
 */
 
 static void printColouredBlock (unsigned char r, unsigned char g, unsigned char b) {
@@ -13,6 +12,7 @@ static void printColouredBlock (unsigned char r, unsigned char g, unsigned char 
 static void setColor (unsigned char r, unsigned char g, unsigned char b) {
   printf("\x08\x08");
   printColouredBlock(r, g, b);
+  fflush(stdout);
 }
 
 int main () {
@@ -20,7 +20,7 @@ int main () {
 
   for (unsigned char i=0; i<255; i++) {
     setColor(i,i,i);
-    usleep(50000);
+    usleep(10000);
   }
 
   return 0;
