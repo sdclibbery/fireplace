@@ -35,24 +35,20 @@ static unsigned char green (unsigned int kelvin) {
 }
 
 static unsigned char blue (unsigned int kelvin) {
-  /*
-  Temperature = Kelvin / 100
-  If Temperature >= 66 Then
-      Blue = 255
-  Else
-
-      If Temperature <= 19 Then
-          Blue = 0
-      Else
-          Blue = Temperature - 10
-          Blue = 138.5177312231 * Ln(Blue) - 305.0447927307
-          If Blue < 0 Then Blue = 0
-          If Blue > 255 Then Blue = 255
-      End If
-
-  End If
-  */
-  return 0;
+  float temperature = kelvin / 100.0f;
+  if (temperature >= 66.0f) {
+      return 255;
+  } else {
+      if (temperature <= 19.0f) {
+          return 0;
+      } else {
+          float b = temperature - 10.0f;
+          b = 138.5177312231f * logf(b) - 305.0447927307f;
+          if (b < 0) b = 0;
+          if (b > 255) b = 255;
+          return b;
+      }
+  }
 }
 
 Rgb blackbody (unsigned int kelvin) {
