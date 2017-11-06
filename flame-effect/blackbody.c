@@ -1,5 +1,7 @@
 #include "rgb.h"
 
+// blackbody radiation colours from http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
+
 static unsigned char red (unsigned int kelvin) {
   /*
   Temperature = Kelvin / 100
