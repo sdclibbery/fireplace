@@ -18,21 +18,20 @@ static unsigned char red (unsigned int kelvin) {
 }
 
 static unsigned char green (unsigned int kelvin) {
-  /*
-  Temperature = Kelvin / 100
-  If Temperature <= 66 Then
-      Green = Temperature
-      Green = 99.4708025861 * Ln(Green) - 161.1195681661
-      If Green < 0 Then Green = 0
-      If Green > 255 Then Green = 255
-  Else
-      Green = Temperature - 60
-      Green = 288.1221695283 * (Green ^ -0.0755148492)
-      If Green < 0 Then Green = 0
-      If Green > 255 Then Green = 255
-  End If
-  */
-  return 0;
+  float temperature = kelvin / 100.0f;
+  if (temperature <= 66.0f) {
+      float g = temperature;
+      g = 99.4708025861f * logf(g) - 161.1195681661f;
+      if (g < 0) return 0;
+      if (g > 255) return 255;
+      return g;
+  } else {
+      float g = temperature - 60.0f;
+      g = 288.1221695283f * powf(g, -0.0755148492f);
+      if (g < 0) return 0;
+      if (g > 255) return 255;
+      return g;
+  }
 }
 
 static unsigned char blue (unsigned int kelvin) {
