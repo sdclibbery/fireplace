@@ -8,12 +8,16 @@
 ToDo
 */
 
+static void backspaceBlock () {
+  printf("\033[F");
+}
+
 static void printColouredBlock (Rgb rgb) {
-  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
+  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\u2588\u2588\n\u2588\u2588\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
 }
 
 static void setColor (Rgb rgb) {
-  printf("\x08\x08");
+  backspaceBlock();
   printColouredBlock(rgb);
   fflush(stdout);
 }
