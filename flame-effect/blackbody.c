@@ -33,14 +33,13 @@ static unsigned char green (unsigned int kelvin) {
 }
 
 static unsigned char blue (unsigned int kelvin) {
-  float hectokelvin = kelvin / 100.0f;
-  if (hectokelvin >= 66.0f) {
+  if (kelvin >= 6600.0f) {
       return 255;
   } else {
-      if (hectokelvin <= 19.0f) {
+      if (kelvin <= 1900.0f) {
           return 0;
       } else {
-          float b = hectokelvin - 10.0f;
+          float b = kelvin/100.0f - 10.0f;
           b = 138.5177312231f * logf(b) - 305.0447927307f;
           if (b < 0) b = 0;
           if (b > 255) b = 255;
