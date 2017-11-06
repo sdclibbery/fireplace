@@ -1,20 +1,20 @@
+#include <math.h>
+
 #include "rgb.h"
 
 // blackbody radiation colours from http://www.tannerhelland.com/4435/convert-temperature-rgb-algorithm-code/
 
 static unsigned char red (unsigned int kelvin) {
-  /*
-  Temperature = Kelvin / 100
-  If Temperature <= 66 Then
-      Red = 255
-  Else
-      Red = Temperature - 60
-      Red = 329.698727446 * (Red ^ -0.1332047592)
-      If Red < 0 Then Red = 0
-      If Red > 255 Then Red = 255
-  End If
-  */
-  return 0;
+  float temperature = kelvin / 100.0f;
+  if (temperature <= 66.0f) {
+      return 255;
+  } else {
+      float r = temperature - 60.0f;
+      r = 329.698727446f * powf(r, -0.1332047592f);
+      if (r < 0.0f) return 0;
+      if (r > 255.0f) return 255;
+      return (unsigned char) r;
+  }
 }
 
 static unsigned char green (unsigned int kelvin) {
