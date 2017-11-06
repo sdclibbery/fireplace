@@ -35,7 +35,7 @@ static float slowFlicker (unsigned int time) {
 
 static float midFlicker (unsigned int time) {
   return 0.6f
-    + 0.1f*sinf(time/23.0f)
+    + 0.1f*sinf(time/19.0f)
     + 0.1f*sinf(time/31.0f)
     + 0.1f*sinf(time/73.0f)
     + 0.05f*sinf(time/753.0f)
@@ -44,10 +44,10 @@ static float midFlicker (unsigned int time) {
 
 static float fastFlicker (unsigned int time) {
   return 0.6f
-    + 0.1f*sinf(time/7.0f)
+    + 0.1f*sinf(time/11.0f)
     + 0.1f*sinf(time/17.0f)
     + 0.1f*sinf(time/31.0f)
-    + 0.05f*sinf(time/1753.0f)
+    + 0.05f*sinf(time/753.0f)
     + 0.05f*sinf(time/1717.0f);
 }
 
@@ -57,7 +57,7 @@ int main () {
   unsigned int time = 0;
   unsigned int frameIntervalMs = 10;
   while (1) { // Use Ctrl-C to exit :-)
-    float flicker = fastFlicker(time);
+    float flicker = midFlicker(time);
     float kelvin = 1000 + flicker*1000;
     float intensity = flicker;
     setColour(scaleRgb(blackbody(kelvin), intensity));
