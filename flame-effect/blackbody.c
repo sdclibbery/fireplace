@@ -17,15 +17,14 @@ static unsigned char red (unsigned int kelvin) {
 }
 
 static unsigned char green (unsigned int kelvin) {
-  float hectokelvin = kelvin / 100.0f;
-  if (hectokelvin <= 66.0f) {
-      float g = hectokelvin;
+  if (kelvin <= 6600.0f) {
+      float g = kelvin / 100.0f;
       g = 99.4708025861f * logf(g) - 161.1195681661f;
       if (g < 0) return 0;
       if (g > 255) return 255;
       return g;
   } else {
-      float g = hectokelvin - 60.0f;
+      float g = kelvin/100.0f - 60.0f;
       g = 288.1221695283f * powf(g, -0.0755148492f);
       if (g < 0) return 0;
       if (g > 255) return 255;
