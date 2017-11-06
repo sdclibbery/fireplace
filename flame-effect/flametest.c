@@ -1,25 +1,28 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "rgb.h"
+#include "blackbody.h"
+
 /*
 ToDo
 */
 
-static void printColouredBlock (unsigned char r, unsigned char g, unsigned char b) {
-  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\x1b[0m", r, g, b);
+static void printColouredBlock (Rgb rgb) {
+  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
 }
 
-static void setColor (unsigned char r, unsigned char g, unsigned char b) {
+static void setColor (Rgb rgb) {
   printf("\x08\x08");
-  printColouredBlock(r, g, b);
+  printColouredBlock(rgb);
   fflush(stdout);
 }
 
 int main () {
-  printColouredBlock(0,0,0);
-
+  Rgb black = {0,0,0};
+  printColouredBlock(black);
   for (unsigned char i=0; i<255; i++) {
-    setColor(i,i,i);
+    setColor(blackbody(i*30));
     usleep(10000);
   }
 

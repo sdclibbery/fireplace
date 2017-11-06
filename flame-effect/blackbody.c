@@ -1,0 +1,60 @@
+#include "rgb.h"
+
+static unsigned char red (unsigned int kelvin) {
+  /*
+  Temperature = Kelvin / 100
+  If Temperature <= 66 Then
+      Red = 255
+  Else
+      Red = Temperature - 60
+      Red = 329.698727446 * (Red ^ -0.1332047592)
+      If Red < 0 Then Red = 0
+      If Red > 255 Then Red = 255
+  End If
+  */
+  return 0;
+}
+
+static unsigned char green (unsigned int kelvin) {
+  /*
+  Temperature = Kelvin / 100
+  If Temperature <= 66 Then
+      Green = Temperature
+      Green = 99.4708025861 * Ln(Green) - 161.1195681661
+      If Green < 0 Then Green = 0
+      If Green > 255 Then Green = 255
+  Else
+      Green = Temperature - 60
+      Green = 288.1221695283 * (Green ^ -0.0755148492)
+      If Green < 0 Then Green = 0
+      If Green > 255 Then Green = 255
+  End If
+  */
+  return 0;
+}
+
+static unsigned char blue (unsigned int kelvin) {
+  /*
+  Temperature = Kelvin / 100
+  If Temperature >= 66 Then
+      Blue = 255
+  Else
+
+      If Temperature <= 19 Then
+          Blue = 0
+      Else
+          Blue = Temperature - 10
+          Blue = 138.5177312231 * Ln(Blue) - 305.0447927307
+          If Blue < 0 Then Blue = 0
+          If Blue > 255 Then Blue = 255
+      End If
+
+  End If
+  */
+  return 0;
+}
+
+Rgb blackbody (unsigned int kelvin) {
+  Rgb rgb = { red(kelvin), green(kelvin), blue(kelvin) };
+  return rgb;
+}
