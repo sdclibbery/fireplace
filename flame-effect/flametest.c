@@ -58,7 +58,7 @@ int main () {
   unsigned int frameIntervalMs = 10;
   while (1) { // Use Ctrl-C to exit :-)
     float flicker = midFlicker(time);
-    float kelvin = 500 + flicker*1500;
+    float kelvin = 500 + flicker*2000;
     float intensity = flicker;
     setColour(scaleRgb(blackbody(kelvin), intensity));
     usleep(frameIntervalMs*1000);
