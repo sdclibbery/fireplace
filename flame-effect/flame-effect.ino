@@ -16,9 +16,8 @@
 // example for more information on possible values.
 Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-unsigned long timeMs = 0;
 unsigned long frameIntervalMs = 10;
-float brightness = 0.5f;
+unsigned char brightness = 255;
 unsigned long timeMsOffsets[NUMPIXELS];
 
 /*
@@ -40,12 +39,11 @@ void setup() {
 
 void loop() {
   for(int i=0;i<NUMPIXELS;i++){
-    unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
-    unsigned char flicker = slowFlicker(pixelTimeMs);
+    unsigned long pixelTimeMs = millis() + timeMsOffsets[i];
+    unsigned char flicker = fp8Mul(slowFlicker(pixelTimeMs), brightness);
     Rgb rgb = rgbScale(flamecolour(flicker), flicker);
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }
   pixels.show();
   delay(frameIntervalMs);
-  timeMs += frameIntervalMs;
 }
