@@ -4,4 +4,6 @@ typedef struct Rgb {
   unsigned char b;
 } Rgb;
 
-Rgb scaleRgb (Rgb c, unsigned char scale);
+Rgb rgbScale (Rgb c, unsigned char scale);
+Rgb rgbAdd (Rgb l, Rgb r);
+Rgb rgbLerp (Rgb lo, Rgb hi, unsigned char x);

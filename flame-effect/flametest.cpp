@@ -4,7 +4,7 @@
 #include <math.h>
 
 #include "rgb.h"
-#include "blackbody.h"
+#include "flamecolour.h"
 #include "flicker.h"
 #include "fixedpoint.h"
 
@@ -54,9 +54,7 @@ int main () {
   unsigned int frameIntervalMs = 10;
   while (1) { // Use Ctrl-C to exit :-)
     unsigned char flicker = slowFlicker(timeMs);
-    unsigned long kelvin = 500 + flicker*2000/255;
-    unsigned char intensity = flicker;
-    setColour(scaleRgb(blackbody(kelvin), intensity));
+    setColour(rgbScale(flamecolour(flicker), flicker));
     usleep(frameIntervalMs*1000);
     timeMs += frameIntervalMs;
   }
