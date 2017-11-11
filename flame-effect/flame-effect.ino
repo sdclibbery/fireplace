@@ -1,7 +1,7 @@
 #include <Adafruit_NeoPixel.h>
 
 #include "rgb.h"
-#include "blackbody.h"
+#include "flamecolour.h"
 #include "flicker.h"
 #include "fixedpoint.h"
 
@@ -42,9 +42,7 @@ void loop() {
   for(int i=0;i<NUMPIXELS;i++){
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
     unsigned char flicker = slowFlicker(pixelTimeMs);
-    unsigned long kelvin = 300 + (flicker*1200)/255;
-    unsigned char intensity = fp8Mul(flicker, brightness);
-    Rgb rgb = scaleRgb(blackbody(kelvin), intensity);
+    Rgb rgb = rgbScale(flamecolour(flicker), flicker);
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }
   pixels.show();
