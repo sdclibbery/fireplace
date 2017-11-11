@@ -3,6 +3,7 @@
 #include "rgb.h"
 #include "blackbody.h"
 #include "flicker.h"
+#include "fixedpoint.h"
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
@@ -40,9 +41,9 @@ void setup() {
 void loop() {
   for(int i=0;i<NUMPIXELS;i++){
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
-    float flicker = slowFlicker(pixelTimeMs);
-    float kelvin = 300 + flicker*1200;
-    float intensity = powf(flicker, 1.3f)*brightness;
+    unsigned char flicker = slowFlicker(pixelTimeMs);
+    unsigned long kelvin = 300 + (flicker*1200)/255;
+    unsigned char intensity = fp8Mul(flicker, brightness);
     Rgb rgb = scaleRgb(blackbody(kelvin), intensity);
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }

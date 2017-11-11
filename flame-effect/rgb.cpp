@@ -1,10 +1,7 @@
 #include "rgb.h"
+#include "fixedpoint.h"
 
-unsigned char scale (unsigned char x, float s) {
-  return x*s;
-}
-
-Rgb scaleRgb (Rgb c, float s) {
-  Rgb out = { scale(c.r, s), scale(c.g, s), scale(c.b, s) };
+Rgb scaleRgb (Rgb c, unsigned char s) {
+  Rgb out = { fp8Mul(c.r, s), fp8Mul(c.g, s), fp8Mul(c.b, s) };
   return out;
 }
