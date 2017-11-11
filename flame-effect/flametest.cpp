@@ -6,10 +6,31 @@
 #include "rgb.h"
 #include "blackbody.h"
 #include "flicker.h"
+#include "fixedpoint.h"
 
 /*
 ToDo
 */
+
+void fp8Assert (unsigned char expected, unsigned char actual) {
+  if (expected != actual) {
+    printf("Expected %d but actual %d\n", expected, actual);
+  }
+}
+
+void unittest (void) {
+  fp8Assert(0, fp8Mul(0, 255));
+  fp8Assert(0, fp8Mul(255, 0));
+  fp8Assert(255, fp8Mul(255, 255));
+  fp8Assert(128, fp8Mul(128, 255));
+  fp8Assert(128, fp8Mul(255, 128));
+
+  fp8Assert(255, fp8Cos(0));
+  fp8Assert(124, fp8Cos(64));
+  fp8Assert(0, fp8Cos(128));
+  fp8Assert(131, fp8Cos(192));
+  fp8Assert(255, fp8Cos(255));
+}
 
 static void backspaceBlock () {
   printf("\033[F");
@@ -26,6 +47,7 @@ static void setColour (Rgb rgb) {
 }
 
 int main () {
+  unittest();
   Rgb black = {0,0,0};
   printColouredBlock(black);
   unsigned int timeMs = 0;
