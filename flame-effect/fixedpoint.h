@@ -3,7 +3,7 @@ static inline unsigned char fp8Mul (unsigned char l, unsigned char r) {
   return (unsigned char)(out/255);
 }
 
-static inline unsigned char cosQ1 (unsigned char x) {
+static inline unsigned char fp8CosQ1 (unsigned char x) {
   return 255 - ((unsigned long)x*x)/32;
 }
 
@@ -12,12 +12,12 @@ static inline unsigned char fp8Cos (unsigned char x) {
   unsigned char v = x % 64;
   switch (quadrant) {
     case 0:
-      return cosQ1(v);
+      return fp8CosQ1(v);
     case 1:
-      return 255-cosQ1(63-v);
+      return 255-fp8CosQ1(63-v);
     case 2:
-      return 255-cosQ1(v);
+      return 255-fp8CosQ1(v);
     default:
-      return cosQ1(63-v);
+      return fp8CosQ1(63-v);
   }
 }
