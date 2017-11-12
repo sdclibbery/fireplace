@@ -1,3 +1,5 @@
+#pragma once
+
 static inline unsigned char fp8Mul (unsigned char l, unsigned char r) {
   unsigned long out = (unsigned long)l * (unsigned long)r;
   return (unsigned char)(out/255);

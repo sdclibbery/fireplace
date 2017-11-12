@@ -1,3 +1,6 @@
+#pragma once
+#include "fixedpoint.h"
+
 typedef struct Rgb {
   unsigned char r;
   unsigned char g;

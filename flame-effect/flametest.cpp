@@ -3,7 +3,6 @@
 #include <unistd.h>
 #include <math.h>
 
-#include "fixedpoint.h"
 #include "rgb.h"
 #include "flamecolour.h"
 #include "flicker.h"
