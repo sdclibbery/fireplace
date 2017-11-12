@@ -17,7 +17,7 @@ unsigned char fp8Cos (unsigned char x) {
       return 255-cosQ1(63-v);
     case 2:
       return 255-cosQ1(v);
-    case 3:
+    default:
       return cosQ1(63-v);
   }
 }
