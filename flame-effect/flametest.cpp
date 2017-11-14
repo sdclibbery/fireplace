@@ -49,11 +49,16 @@ int main () {
   unittest();
   Rgb black = {0,0,0};
   printColouredBlock(black);
-  unsigned int timeMs = 0;
+  unsigned long timeMs = 0;
   unsigned int frameIntervalMs = 10;
+  unsigned int flickerSpeed = 40;
   while (1) { // Use Ctrl-C to exit :-)
-    unsigned char flicker = slowFlicker(timeMs);
-    setColour(rgbScale(flamecolour(flicker), flicker));
+    unsigned char intensity = flicker(flickerSpeed, timeMs);
+    setColour(
+      rgbScale(
+	flamecolour(intensity),
+	intensity)
+      );
     usleep(frameIntervalMs*1000);
     timeMs += frameIntervalMs;
   }
