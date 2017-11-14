@@ -51,7 +51,7 @@ int main () {
   printColouredBlock(black);
   unsigned long timeMs = 0;
   unsigned int frameIntervalMs = 10;
-  unsigned int flickerSpeed = 40;
+  unsigned int flickerSpeed = 20;
   while (1) { // Use Ctrl-C to exit :-)
     unsigned char intensity = flicker(flickerSpeed, timeMs);
     setColour(
