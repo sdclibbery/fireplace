@@ -54,11 +54,10 @@ int main () {
   unsigned int flickerSpeed = 20;
   while (1) { // Use Ctrl-C to exit :-)
     unsigned char intensity = flicker(flickerSpeed, timeMs);
-    setColour(
-      rgbScale(
-      	halloweenFlame(intensity),
-      	intensity)
-      );
+    if (timeMs/3000 % 4 == 0) { setColour(woodFlame(intensity)); }
+    if (timeMs/3000 % 4 == 1) { setColour(gasFlame(intensity)); }
+    if (timeMs/3000 % 4 == 2) { setColour(halloweenFlame(intensity)); }
+    if (timeMs/3000 % 4 == 3) { setColour(rainbowFlame(intensity)); }
     usleep(frameIntervalMs*1000);
     timeMs += frameIntervalMs;
   }

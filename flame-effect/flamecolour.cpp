@@ -24,7 +24,7 @@ Rgb woodFlame (unsigned char intensity) {
     up(sqr(intensity), 0, 160),
     down(intensity, 48, 0),
   };
-  return rgb;
+  return rgbScale(rgb, intensity);
 }
 
 Rgb gasFlame (unsigned char intensity) {
@@ -33,14 +33,23 @@ Rgb gasFlame (unsigned char intensity) {
     up(sqr(intensity), 0, 160),
     down(intensity, 255, 0),
   };
-  return rgb;
+  return rgbScale(rgb, intensity);
 }
 
 Rgb halloweenFlame (unsigned char intensity) {
   Rgb rgb = {
     constant(0),
-    up(intensity, 40, 255),
-    down(intensity, 255, 0),
+    fp8Cos(intensity*2),
+    fp8Cos(intensity*2+170),
+  };
+  return rgbScale(rgb, intensity);
+}
+
+Rgb rainbowFlame (unsigned char intensity) {
+  Rgb rgb = {
+    fp8Cos(intensity*2+85),
+    fp8Cos(intensity*2),
+    fp8Cos(intensity*2+170),
   };
   return rgb;
 }
