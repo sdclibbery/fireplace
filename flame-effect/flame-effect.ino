@@ -19,14 +19,13 @@ Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ80
 unsigned long frameIntervalMs = 10;
 unsigned char brightness = 255;
 unsigned long timeMsOffsets[NUMPIXELS];
+unsigned int flickerSpeed = 20;
 
 /*
 ToDo:
 OTA updates?
-bug: delay is not accurate due to time spent calculating
-per LED flicker and temperature delta
-presets
-web app
+more flamecolour presets
+wifi web app
 */
 
 
@@ -40,8 +39,8 @@ void setup() {
 void loop() {
   for(int i=0;i<NUMPIXELS;i++){
     unsigned long pixelTimeMs = millis() + timeMsOffsets[i];
-    unsigned char flicker = fp8Mul(slowFlicker(pixelTimeMs), brightness);
-    Rgb rgb = rgbScale(flamecolour(flicker), flicker);
+    unsigned char intensity = fp8Mul(flicker(flickerSpeed, pixelTimeMs), brightness);
+    Rgb rgb = rgbScale(flamecolour(intensity), intensity);
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }
   pixels.show();
