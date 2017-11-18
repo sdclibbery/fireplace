@@ -56,7 +56,7 @@ int main () {
     unsigned char intensity = flicker(flickerSpeed, timeMs);
     setColour(
       rgbScale(
-      	gasFlame(intensity),
+      	halloweenFlame(intensity),
       	intensity)
       );
     usleep(frameIntervalMs*1000);

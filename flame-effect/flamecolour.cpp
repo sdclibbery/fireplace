@@ -35,3 +35,12 @@ Rgb gasFlame (unsigned char intensity) {
   };
   return rgb;
 }
+
+Rgb halloweenFlame (unsigned char intensity) {
+  Rgb rgb = {
+    constant(0),
+    up(intensity, 40, 255),
+    down(intensity, 255, 0),
+  };
+  return rgb;
+}

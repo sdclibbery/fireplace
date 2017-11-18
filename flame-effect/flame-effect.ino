@@ -40,7 +40,7 @@ void loop() {
   for(int i=0;i<NUMPIXELS;i++){
     unsigned long pixelTimeMs = millis() + timeMsOffsets[i];
     unsigned char intensity = fp8Mul(flicker(flickerSpeed, pixelTimeMs), brightness);
-    Rgb rgb = rgbScale(flamecolour(intensity), intensity);
+    Rgb rgb = rgbScale(gasFlame(intensity), intensity);
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }
   pixels.show();
