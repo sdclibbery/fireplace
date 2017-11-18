@@ -1,1 +1,2 @@
-Rgb flamecolour (unsigned char intensity);
+Rgb woodFlame (unsigned char intensity);
+Rgb gasFlame (unsigned char intensity);
