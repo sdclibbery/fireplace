@@ -3,6 +3,8 @@
 #include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
+#include <DNSServer.h>
+#include <WiFiManager.h>
 
 #include "rgb.h"
 #include "flamecolour.h"
@@ -15,8 +17,6 @@
 #define NUMPIXELS      1 // 30
 static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
-static const char* ssid = "?";
-static const char* password = "?";
 static const char* mDnsHostname = "fireplace";
 static ESP8266WebServer server(80);
 
@@ -36,9 +36,12 @@ OTA updates?
 void setup() {
   Serial.begin(115200);
   Serial.println("Start up...");
-  WiFi.begin(ssid, password);
-  while (WiFi.status() != WL_CONNECTED) { Serial.print("."); delay(500); }
-  Serial.println("WiFi started");
+  WiFiManager wifiManager;
+  while (!wifiManager.autoConnect("FIREPLACE-SETUP")) {
+    Serial.println("WiFi start up failed.");
+    delay(1000);
+  }
+  Serial.println("WiFi Manager done...");
   Serial.println(WiFi.localIP());
   MDNS.addService("http", "tcp", 80);
   MDNS.begin(mDnsHostname, WiFi.localIP());
