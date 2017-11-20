@@ -1,19 +1,32 @@
 #include <Adafruit_NeoPixel.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
-#include <DNSServer.h>
 #include <WiFiManager.h>
+#include <DNSServer.h>
 
 #include "rgb.h"
 #include "flamecolour.h"
 #include "flicker.h"
 #include "fixedpoint.h"
 
+/*
+ToDo:
+get the hardware working again
+hexarch
+ controller adaptor
+ display adaptor
+ota updates
+web app controller
+ brightness
+ on/off
+manual controller
+Locality effects
+ One Flicker should affect several proximal LEDs
+ Rainbow should smoothly move over the LED array
+*/
+
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
-
 #define NUMPIXELS      1 // 30
 static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
@@ -21,22 +34,11 @@ static const char* mDnsHostname = "fireplace";
 static ESP8266WebServer server(80);
 
 typedef Rgb (*FlameFunction)(unsigned char);
-
 static unsigned long frameIntervalMs = 10;
 static unsigned char brightness = 255;
 static FlameFunction flameColour = &woodFlame;
 static unsigned int flickerSpeed = 20;
 static unsigned long timeMsOffsets[NUMPIXELS];
-
-/*
-ToDo:
-get the hardware working again
-ota updates
-web app
- brightness
- on/off
-manual controls
-*/
 
 static void activatePresetIfInArgs (String argValue, FlameFunction func) {
   if (server.arg("preset") == argValue) { flameColour = func; }
