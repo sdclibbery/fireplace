@@ -30,8 +30,12 @@ static unsigned long timeMsOffsets[NUMPIXELS];
 
 /*
 ToDo:
+get the hardware working again
+ota updates
 web app
-OTA updates?
+ brightness
+ on/off
+manual controls
 */
 
 
@@ -65,7 +69,7 @@ void setup() {
     if (server.arg("preset") == "gasFlame") { flameColour = &gasFlame; }
     content += "<p><a href=\"/?preset=halloweenFlame\">Halloween</a></p>";
     if (server.arg("preset") == "halloweenFlame") { flameColour = &halloweenFlame; }
-    content += "<p><a href=\"/?preset=rainbowFlame\">Gas Flame</a></p>";
+    content += "<p><a href=\"/?preset=rainbowFlame\">Rainbow</a></p>";
     if (server.arg("preset") == "rainbowFlame") { flameColour = &rainbowFlame; }
     server.send(200, "text/html", content);
   });
