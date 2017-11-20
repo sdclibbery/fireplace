@@ -38,10 +38,36 @@ web app
 manual controls
 */
 
+static void activatePresetIfInArgs (String argValue, FlameFunction func) {
+  if (server.arg("preset") == argValue) { flameColour = func; }
+}
+static String renderPresetMarkup (String argValue, String label) {
+  return String() + "<p><a href=\"/?preset=" + argValue + "\">" + label + "</a></p>";
+}
+
+static auto respondWithControlPage = [](){
+  String content = "";
+  content += "<style>";
+  content += "body{font-family:helvetica,sans-serif;}";
+  content += "a{margin:8px;padding:4px;border:1px solid #aaa;background-color:#eee;color:#111;border-radius:4px;} a:hover{background-color:#ddd;}";
+  content += "</style>";
+  content += "<h1>Fireplace Control</h1>";
+  content += "<h3>Preset Effects</h3>";
+  Serial.println(String("Preset: ")+server.arg("preset"));
+  activatePresetIfInArgs("woodFlame", &woodFlame);
+  content += renderPresetMarkup("woodFlame", "Wood Flame");
+  activatePresetIfInArgs("gasFlame", &gasFlame);
+  content += renderPresetMarkup("gasFlame", "Gas Flame");
+  activatePresetIfInArgs("halloweenFlame", &halloweenFlame);
+  content += renderPresetMarkup("halloweenFlame", "Halloween");
+  activatePresetIfInArgs("rainbowFlame", &rainbowFlame);
+  content += renderPresetMarkup("rainbowFlame", "Rainbow");
+  server.send(200, "text/html", content);
+};
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("Start up...");
+  Serial.println("Starting...");
   
   WiFiManager wifiManager;
   while (!wifiManager.autoConnect("FIREPLACE-SETUP")) {
@@ -54,28 +80,8 @@ void setup() {
   MDNS.begin(mDnsHostname, WiFi.localIP());
   Serial.println("mDNS started");
   
-  server.on("/", [](){
-    String content = "";
-    content += "<style>";
-    content += "body{font-family:helvetica,sans-serif;}";
-    content += "a{margin:8px;padding:4px;border:1px solid #aaa;background-color:#eee;color:#111;border-radius:4px;} a:hover{background-color:#ddd;}";
-    content += "</style>";
-    content += "<h1>Fireplace Control</h1>";
-    content += "<h3>Preset Effects</h3>";
-    Serial.println(String("Preset: ")+server.arg("preset"));
-    content += "<p><a href=\"/?preset=woodFlame\">Wood Flame</a></p>";
-    if (server.arg("preset") == "woodFlame") { flameColour = &woodFlame; }
-    content += "<p><a href=\"/?preset=gasFlame\">Gas Flame</a></p>";
-    if (server.arg("preset") == "gasFlame") { flameColour = &gasFlame; }
-    content += "<p><a href=\"/?preset=halloweenFlame\">Halloween</a></p>";
-    if (server.arg("preset") == "halloweenFlame") { flameColour = &halloweenFlame; }
-    content += "<p><a href=\"/?preset=rainbowFlame\">Rainbow</a></p>";
-    if (server.arg("preset") == "rainbowFlame") { flameColour = &rainbowFlame; }
-    server.send(200, "text/html", content);
-  });
-  server.onNotFound([](){
-    server.send(404, "text/plain", "404 not found");
-  });
+  server.on("/", respondWithControlPage);
+  server.onNotFound([]() { server.send(404, "text/plain", "404 not found"); });
   server.begin();
   Serial.println("Server started");
   
