@@ -11,7 +11,6 @@
 
 /*
 ToDo:
-get the hardware working again
 hexarch
  controller adaptor
  display adaptor
@@ -27,16 +26,15 @@ Locality effects
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
-#define NUMPIXELS      1 // 30
+#define NUMPIXELS      30
 static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 static const char* mDnsHostname = "fireplace";
 static ESP8266WebServer server(80);
 
 typedef Rgb (*FlameFunction)(unsigned char);
-static unsigned long frameIntervalMs = 10;
-static unsigned char brightness = 255;
 static FlameFunction flameColour = &woodFlame;
+static unsigned char brightness = 255;
 static unsigned int flickerSpeed = 20;
 static unsigned long timeMsOffsets[NUMPIXELS];
 
@@ -70,7 +68,7 @@ static auto respondWithControlPage = [](){
 void setup() {
   Serial.begin(115200);
   Serial.println("Starting...");
-  
+
   WiFiManager wifiManager;
   while (!wifiManager.autoConnect("FIREPLACE-SETUP")) {
     Serial.println("WiFi start up failed.");
@@ -86,10 +84,10 @@ void setup() {
   server.onNotFound([]() { server.send(404, "text/plain", "404 not found"); });
   server.begin();
   Serial.println("Server started");
-  
+
   for(int i=0;i<NUMPIXELS;i++){
     timeMsOffsets[i] = random(100000);
-  }  
+  }
   pixels.begin();
 }
 
@@ -99,10 +97,8 @@ void loop() {
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
     unsigned char intensity = flicker(flickerSpeed, pixelTimeMs);
     Rgb rgb = rgbScale(flameColour(intensity), brightness);
-//    pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
-    pixels.setPixelColor(i, pixels.Color(128,0,90));
+    pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   }
   pixels.show();
   server.handleClient();
-  delay(frameIntervalMs);
 }
