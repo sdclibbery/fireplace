@@ -47,9 +47,9 @@ Rgb halloweenFlame (unsigned char intensity) {
 
 Rgb rainbowFlame (unsigned char intensity) {
   Rgb rgb = {
-    fp8Cos(intensity*2+85),
-    fp8Cos(intensity*2),
-    fp8Cos(intensity*2+170),
+    fp8Cos(intensity+85),
+    fp8Cos(intensity),
+    fp8Cos(intensity+170),
   };
   return rgb;
 }

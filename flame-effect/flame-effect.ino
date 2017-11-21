@@ -11,7 +11,6 @@
 
 /*
 ToDo:
-rename preset to colour
 Factor out fire effect
  With arrays of option info plus get,set
 Factor out webapp controls
