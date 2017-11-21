@@ -11,6 +11,10 @@
 
 /*
 ToDo:
+rename preset to colour
+Factor out fire effect
+ With arrays of option info plus get,set
+Factor out webapp controls
 manual controller
 Locality effects
  One Flicker should affect several proximal LEDs
@@ -28,7 +32,7 @@ static ESP8266WebServer server(80);
 typedef Rgb (*FlameFunction)(unsigned char);
 static FlameFunction flameColour = &woodFlame;
 static unsigned char brightness = 255;
-static unsigned int flickerSpeed = 20;
+static unsigned int flickerSpeed = 5;
 static unsigned long timeMsOffsets[NUMPIXELS];
 
 static void activatePresetIfInArgs (String argValue, FlameFunction func) {
@@ -60,15 +64,15 @@ static auto respondWithControlPage = [](){
   Serial.println(String("Brightness: ")+server.arg("brightness"));
   if (server.hasArg("brightness")) { brightness = server.arg("brightness").toInt(); }
   content += "<p><a href=\"/?brightness=0\">Off</a>";
-  content += "<a href=\"/?brightness=104\">Dim</a>";
+  content += "<a href=\"/?brightness=80\">Dim</a>";
   content += "<a href=\"/?brightness=255\">Bright</a></p>";
  
   content += "<h3>Flicker Speed</h3>";
   Serial.println(String("Flicker Speed: ")+server.arg("flickerSpeed"));
   if (server.hasArg("flickerSpeed")) { flickerSpeed = server.arg("flickerSpeed").toInt(); }
-  content += "<p><a href=\"/?flickerSpeed=10\">Slow</a>";
-  content += "<a href=\"/?flickerSpeed=16\">Normal</a>";
-  content += "<a href=\"/?flickerSpeed=25\">Fast</a></p>";
+  content += "<p><a href=\"/?flickerSpeed=5\">Slow</a>";
+  content += "<a href=\"/?flickerSpeed=8\">Normal</a>";
+  content += "<a href=\"/?flickerSpeed=13\">Fast</a></p>";
  
   server.send(200, "text/html", content);
 };
