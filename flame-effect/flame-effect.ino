@@ -35,11 +35,11 @@ static unsigned char brightness = 255;
 static unsigned int flickerSpeed = 5;
 static unsigned long timeMsOffsets[NUMPIXELS];
 
-static void activatePresetIfInArgs (String argValue, FlameFunction func) {
-  if (server.arg("preset") == argValue) { flameColour = func; }
+static void activateColourIfInArgs (String argValue, FlameFunction func) {
+  if (server.arg("colour") == argValue) { flameColour = func; }
 }
-static String renderPresetMarkup (String argValue, String label) {
-  return String() + "<p><a href=\"/?preset=" + argValue + "\">" + label + "</a></p>";
+static String renderColourMarkup (String argValue, String label) {
+  return String() + "<p><a href=\"/?colour=" + argValue + "\">" + label + "</a></p>";
 }
 static auto respondWithControlPage = [](){
   String content = "";
@@ -49,31 +49,31 @@ static auto respondWithControlPage = [](){
   content += "</style>";
   content += "<h1>Fireplace Control</h1>";
 
-  content += "<h3>Preset Effects</h3>";
-  Serial.println(String("Preset: ")+server.arg("preset"));
-  activatePresetIfInArgs("woodFlame", &woodFlame);
-  content += renderPresetMarkup("woodFlame", "Wood Flame");
-  activatePresetIfInArgs("gasFlame", &gasFlame);
-  content += renderPresetMarkup("gasFlame", "Gas Flame");
-  activatePresetIfInArgs("halloweenFlame", &halloweenFlame);
-  content += renderPresetMarkup("halloweenFlame", "Halloween");
-  activatePresetIfInArgs("rainbowFlame", &rainbowFlame);
-  content += renderPresetMarkup("rainbowFlame", "Rainbow");
- 
+  content += "<h3>Colours</h3>";
+  Serial.println(String("Colour: ")+server.arg("colour"));
+  activateColourIfInArgs("woodFlame", &woodFlame);
+  content += renderColourMarkup("woodFlame", "Wood Flame");
+  activateColourIfInArgs("gasFlame", &gasFlame);
+  content += renderColourMarkup("gasFlame", "Gas Flame");
+  activateColourIfInArgs("halloweenFlame", &halloweenFlame);
+  content += renderColourMarkup("halloweenFlame", "Halloween");
+  activateColourIfInArgs("rainbowFlame", &rainbowFlame);
+  content += renderColourMarkup("rainbowFlame", "Rainbow");
+
   content += "<h3>Brightness</h3>";
   Serial.println(String("Brightness: ")+server.arg("brightness"));
   if (server.hasArg("brightness")) { brightness = server.arg("brightness").toInt(); }
   content += "<p><a href=\"/?brightness=0\">Off</a>";
   content += "<a href=\"/?brightness=80\">Dim</a>";
   content += "<a href=\"/?brightness=255\">Bright</a></p>";
- 
+
   content += "<h3>Flicker Speed</h3>";
   Serial.println(String("Flicker Speed: ")+server.arg("flickerSpeed"));
   if (server.hasArg("flickerSpeed")) { flickerSpeed = server.arg("flickerSpeed").toInt(); }
   content += "<p><a href=\"/?flickerSpeed=5\">Slow</a>";
   content += "<a href=\"/?flickerSpeed=8\">Normal</a>";
   content += "<a href=\"/?flickerSpeed=13\">Fast</a></p>";
- 
+
   server.send(200, "text/html", content);
 };
 
@@ -91,7 +91,7 @@ void setup() {
   MDNS.addService("http", "tcp", 80);
   MDNS.begin(mDnsHostname, WiFi.localIP());
   Serial.println("mDNS started");
-  
+
   server.on("/", respondWithControlPage);
   server.onNotFound([]() { server.send(404, "text/plain", "404 not found"); });
   server.begin();
