@@ -11,7 +11,6 @@
 
 /*
 ToDo:
-mdns stopped working?
 manual controller
 Locality effects
  One Flicker should affect several proximal LEDs

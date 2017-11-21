@@ -21,7 +21,7 @@ static inline unsigned char down (unsigned char x, unsigned char from, unsigned 
 Rgb woodFlame (unsigned char intensity) {
   Rgb rgb = {
     constant(255),
-    up(sqr(intensity), 0, 130),
+    up(sqr(intensity), 32, 130),
     constant(0),
   };
   return rgbScale(rgb, intensity);
