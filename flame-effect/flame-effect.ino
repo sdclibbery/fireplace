@@ -11,13 +11,7 @@
 
 /*
 ToDo:
-hexarch
- controller adaptor
- display adaptor
-ota updates
-web app controller
- brightness
- on/off
+mdns stopped working?
 manual controller
 Locality effects
  One Flicker should affect several proximal LEDs
@@ -44,14 +38,14 @@ static void activatePresetIfInArgs (String argValue, FlameFunction func) {
 static String renderPresetMarkup (String argValue, String label) {
   return String() + "<p><a href=\"/?preset=" + argValue + "\">" + label + "</a></p>";
 }
-
 static auto respondWithControlPage = [](){
   String content = "";
   content += "<style>";
   content += "body{font-family:helvetica,sans-serif;}";
-  content += "a{margin:8px;padding:4px;border:1px solid #aaa;background-color:#eee;color:#111;border-radius:4px;} a:hover{background-color:#ddd;}";
+  content += "a{margin:8px;padding:4px;border:1px solid #aaa;background-color:#eee;color:#111;border-radius:4px;text-decoration:none;} a:hover{background-color:#ddd;}";
   content += "</style>";
   content += "<h1>Fireplace Control</h1>";
+
   content += "<h3>Preset Effects</h3>";
   Serial.println(String("Preset: ")+server.arg("preset"));
   activatePresetIfInArgs("woodFlame", &woodFlame);
@@ -62,6 +56,21 @@ static auto respondWithControlPage = [](){
   content += renderPresetMarkup("halloweenFlame", "Halloween");
   activatePresetIfInArgs("rainbowFlame", &rainbowFlame);
   content += renderPresetMarkup("rainbowFlame", "Rainbow");
+ 
+  content += "<h3>Brightness</h3>";
+  Serial.println(String("Brightness: ")+server.arg("brightness"));
+  if (server.hasArg("brightness")) { brightness = server.arg("brightness").toInt(); }
+  content += "<p><a href=\"/?brightness=0\">Off</a>";
+  content += "<a href=\"/?brightness=104\">Dim</a>";
+  content += "<a href=\"/?brightness=255\">Bright</a></p>";
+ 
+  content += "<h3>Flicker Speed</h3>";
+  Serial.println(String("Flicker Speed: ")+server.arg("flickerSpeed"));
+  if (server.hasArg("flickerSpeed")) { flickerSpeed = server.arg("flickerSpeed").toInt(); }
+  content += "<p><a href=\"/?flickerSpeed=10\">Slow</a>";
+  content += "<a href=\"/?flickerSpeed=16\">Normal</a>";
+  content += "<a href=\"/?flickerSpeed=25\">Fast</a></p>";
+ 
   server.send(200, "text/html", content);
 };
 
