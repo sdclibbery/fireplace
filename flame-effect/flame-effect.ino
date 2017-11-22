@@ -4,19 +4,6 @@
 
 #include "fireplace.h"
 
-/*
-ToDo:
-New speeds: 6, 9, 13; default to 9
-Crystal colour: whiteish with floating hints of blue/green, and then flashes of pure white
-Factor out fireplace code
- With arrays of option info plus get,set
-Factor out webapp controls
-manual controller
-Locality effects
- One Flicker should affect several proximal LEDs
- Rainbow should smoothly move over the LED array
-*/
-
 static const char* mDnsHostname = "fireplace";
 
 void setup() {

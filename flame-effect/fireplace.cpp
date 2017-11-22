@@ -6,6 +6,19 @@
 #include "flicker.h"
 #include "fixedpoint.h"
 
+/*
+ToDo:
+Crystal colour: whiteish with floating hints of blue/green, and then flashes of pure white
+Factor out fireplace code
+ With arrays of option info plus get,set
+Factor out webapp controls
+manual controller
+remember last settings?
+Locality effects
+ One Flicker should affect several proximal LEDs
+ Rainbow should smoothly move over the LED array
+*/
+
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
 #define NUMPIXELS      30
@@ -16,7 +29,7 @@ static ESP8266WebServer server(80);
 typedef Rgb (*FlameFunction)(unsigned char);
 static FlameFunction flameColour = &woodFlame;
 static unsigned char brightness = 255;
-static unsigned int flickerSpeed = 5;
+static unsigned int flickerSpeed = 6;
 static unsigned long timeMsOffsets[NUMPIXELS];
 
 static void activateColourIfInArgs (String argValue, FlameFunction func) {
@@ -54,7 +67,7 @@ static auto respondWithControlPage = [](){
   content += "<h3>Flicker Speed</h3>";
   Serial.println(String("Flicker Speed: ")+server.arg("flickerSpeed"));
   if (server.hasArg("flickerSpeed")) { flickerSpeed = server.arg("flickerSpeed").toInt(); }
-  content += "<p><a href=\"/?flickerSpeed=5\">Slow</a>";
+  content += "<p><a href=\"/?flickerSpeed=6\">Slow</a>";
   content += "<a href=\"/?flickerSpeed=8\">Normal</a>";
   content += "<a href=\"/?flickerSpeed=13\">Fast</a></p>";
 
