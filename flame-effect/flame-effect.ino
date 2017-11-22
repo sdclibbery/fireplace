@@ -11,7 +11,9 @@
 
 /*
 ToDo:
-Factor out fire effect
+New speeds: 6, 9, 13; default to 9
+Crystal colour: whiteish with floating hints of blue/green, and then flashes of pure white
+Factor out fireplace code
  With arrays of option info plus get,set
 Factor out webapp controls
 manual controller
@@ -20,13 +22,13 @@ Locality effects
  Rainbow should smoothly move over the LED array
 */
 
+static const char* mDnsHostname = "fireplace";
+static ESP8266WebServer server(80);
+
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
 #define NUMPIXELS      30
 static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
-static const char* mDnsHostname = "fireplace";
-static ESP8266WebServer server(80);
 
 typedef Rgb (*FlameFunction)(unsigned char);
 static FlameFunction flameColour = &woodFlame;
