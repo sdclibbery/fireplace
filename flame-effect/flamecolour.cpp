@@ -47,11 +47,11 @@ Rgb halloweenFlame (unsigned char intensity) {
 
 Rgb crystalFlame (unsigned char intensity) {
   static Rgb white = {255, 255, 255};
-  if (intensity % 123 == 0) { return white; }
+  if (intensity % 123 == 122) { return white; }
   Rgb rgb = {
-    constant(100),
-    down(intensity, 110, 80),
-    up(intensity, 90, 140),
+    constant(60),
+    down(intensity, 65, 50),
+    up(intensity, 55, 70),
   };
   return rgbScale(rgb, intensity);
 }
