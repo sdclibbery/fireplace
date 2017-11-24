@@ -8,15 +8,9 @@
 
 /*
 ToDo:
-Crystal colour: whiteish with floating hints of blue/green, and then flashes of pure white
-Factor out fireplace code
- With arrays of option info plus get,set
-Factor out webapp controls
 manual controller
 remember last settings?
-Locality effects
- One Flicker should affect several proximal LEDs
- Rainbow should smoothly move over the LED array
+Rainbow should have better colours; ie actual Hue
 */
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
@@ -29,7 +23,7 @@ static ESP8266WebServer server(80);
 typedef Rgb (*FlameFunction)(unsigned char);
 static FlameFunction flameColour = &woodFlame;
 static unsigned char brightness = 255;
-static unsigned int flickerSpeed = 6;
+static unsigned int flickerSpeed = 7;
 static unsigned long timeMsOffsets[NUMPIXELS];
 
 static void activateColourIfInArgs (String argValue, FlameFunction func) {
@@ -54,6 +48,8 @@ static auto respondWithControlPage = [](){
   content += renderColourMarkup("gasFlame", "Gas Flame");
   activateColourIfInArgs("halloweenFlame", &halloweenFlame);
   content += renderColourMarkup("halloweenFlame", "Halloween");
+  activateColourIfInArgs("crystalFlame", &crystalFlame);
+  content += renderColourMarkup("crystalFlame", "Crystal");
   activateColourIfInArgs("rainbowFlame", &rainbowFlame);
   content += renderColourMarkup("rainbowFlame", "Rainbow");
 
@@ -67,9 +63,9 @@ static auto respondWithControlPage = [](){
   content += "<h3>Flicker Speed</h3>";
   Serial.println(String("Flicker Speed: ")+server.arg("flickerSpeed"));
   if (server.hasArg("flickerSpeed")) { flickerSpeed = server.arg("flickerSpeed").toInt(); }
-  content += "<p><a href=\"/?flickerSpeed=6\">Slow</a>";
-  content += "<a href=\"/?flickerSpeed=8\">Normal</a>";
-  content += "<a href=\"/?flickerSpeed=13\">Fast</a></p>";
+  content += "<p><a href=\"/?flickerSpeed=7\">Slow</a>";
+  content += "<a href=\"/?flickerSpeed=9\">Normal</a>";
+  content += "<a href=\"/?flickerSpeed=12\">Fast</a></p>";
 
   server.send(200, "text/html", content);
 };

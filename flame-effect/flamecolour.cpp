@@ -21,7 +21,7 @@ static inline unsigned char down (unsigned char x, unsigned char from, unsigned 
 Rgb woodFlame (unsigned char intensity) {
   Rgb rgb = {
     constant(255),
-    up(sqr(intensity), 32, 130),
+    up(sqr(intensity), 32, 120),
     constant(0),
   };
   return rgbScale(rgb, intensity);
@@ -41,6 +41,17 @@ Rgb halloweenFlame (unsigned char intensity) {
     constant(0),
     up(invSqr(intensity), 0, 200),
     down(invSqr(intensity), 255, 0),
+  };
+  return rgbScale(rgb, intensity);
+}
+
+Rgb crystalFlame (unsigned char intensity) {
+  static Rgb white = {255, 255, 255};
+  if (intensity % 123 == 0) { return white; }
+  Rgb rgb = {
+    constant(100),
+    down(intensity, 110, 80),
+    up(intensity, 90, 140),
   };
   return rgbScale(rgb, intensity);
 }
