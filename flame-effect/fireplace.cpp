@@ -8,9 +8,19 @@
 
 /*
 ToDo:
+Big size for control page when viewed on mobile
+Tweak crystal sparkles
+Tweak gas flame Colours
+Try a reducing green in the wood flame (or add an 'embers' colour)
+Maybe rename flamecolour to 'effect'?
+Pass time into flamecolour and have flamecolour call flicker
+ So have smoother crystal and rainbow effects
+Rainbow should have better colours; ie actual Hue
+Factor out fireplace code
+ With arrays of option info plus get,set
+Factor out webapp controls
 manual controller
 remember last settings?
-Rainbow should have better colours; ie actual Hue
 */
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
@@ -34,6 +44,7 @@ static String renderColourMarkup (String argValue, String label) {
 }
 static auto respondWithControlPage = [](){
   String content = "";
+  content += "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">";
   content += "<style>";
   content += "body{font-family:helvetica,sans-serif;}";
   content += "a{margin:8px;padding:4px;border:1px solid #aaa;background-color:#eee;color:#111;border-radius:4px;text-decoration:none;} a:hover{background-color:#ddd;}";
@@ -44,6 +55,8 @@ static auto respondWithControlPage = [](){
   Serial.println(String("Colour: ")+server.arg("colour"));
   activateColourIfInArgs("woodFlame", &woodFlame);
   content += renderColourMarkup("woodFlame", "Wood Flame");
+  activateColourIfInArgs("embersFlame", &embersFlame);
+  content += renderColourMarkup("embersFlame", "Glowing Embers");
   activateColourIfInArgs("gasFlame", &gasFlame);
   content += renderColourMarkup("gasFlame", "Gas Flame");
   activateColourIfInArgs("halloweenFlame", &halloweenFlame);
