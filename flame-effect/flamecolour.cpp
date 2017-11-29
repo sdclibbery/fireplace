@@ -8,6 +8,9 @@ static inline unsigned char constant (unsigned char v) {
 static inline unsigned char sqr (unsigned char x) {
   return fp8Mul(x, x);
 }
+static inline unsigned char cube (unsigned char x) {
+  return fp8Mul(sqr(x), x);
+}
 static inline unsigned char invSqr (unsigned char x) {
   return 255 - fp8Mul((255-x), (255-x));
 }
@@ -21,7 +24,7 @@ static inline unsigned char down (unsigned char x, unsigned char from, unsigned 
 Rgb woodFlame (unsigned char intensity) {
   Rgb rgb = {
     constant(255),
-    up(sqr(intensity), 32, 120),
+    up(cube(intensity), 32, 120),
     constant(0),
   };
   return rgbScale(rgb, intensity);
@@ -33,7 +36,7 @@ Rgb embersFlame (unsigned char intensity) {
     up(sqr(sqr(intensity)), 0, 80),
     constant(0),
   };
-  return rgbScale(rgb, intensity);
+  return rgbScale(rgb, intensity/3);
 }
 
 Rgb gasFlame (unsigned char intensity) {
