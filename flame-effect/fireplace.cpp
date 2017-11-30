@@ -1,4 +1,5 @@
-#include "Arduino.h"
+#include <stdlib.h>
+
 #include "fireplace.h"
 #include "flicker.h"
 #include "flamecolour.h"
@@ -35,12 +36,11 @@ void fireplaceSetFlickerSpeed (unsigned int newFlickerSpeed) {
 void fireplaceSetup (unsigned int numPixels) {
   timeMsOffsets = new unsigned long [numPixels];
   for(int i=0;i<numPixels;i++){
-    timeMsOffsets[i] = random(100000);
+    timeMsOffsets[i] = (unsigned long)rand()*100000/RAND_MAX;
   }
 }
 
-void fireplaceLoop (unsigned int numPixels, SetColourFunction setColour) {
-  unsigned long timeMs = millis();
+void fireplaceLoop (unsigned long timeMs, unsigned int numPixels, SetColourFunction setColour) {
   for(int i=0;i<numPixels;i++){
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
     unsigned char intensity = flicker(flickerSpeed, pixelTimeMs);

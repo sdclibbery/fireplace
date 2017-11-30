@@ -13,7 +13,7 @@ static inline Rgb rgbScale (Rgb c, unsigned char s) {
 }
 
 static inline Rgb rgbAdd (Rgb l, Rgb r) {
-  Rgb out = { l.r+r.r, l.g+r.g, l.b+r.b };
+  Rgb out = { (unsigned char)(l.r+r.r), (unsigned char)(l.g+r.g), (unsigned char)(l.b+r.b) };
   return out;
 }
 

@@ -5,7 +5,7 @@
 
 #include "rgb.h"
 #include "flamecolour.h"
-#include "flicker.h"
+#include "fireplace.h"
 
 void fp8Assert (unsigned char expected, unsigned char actual) {
   if (expected != actual) {
@@ -47,17 +47,20 @@ int main () {
   printColouredBlock(black);
   unsigned long timeMs = 0;
   unsigned int frameIntervalMs = 10;
-  unsigned int flickerSpeed = 20;
+  unsigned int numPixels = 1;
+  fireplaceSetup(numPixels);
   int c = '0';
   while (c != 'q') {
+    if (c == '0') { fireplaceSetFlameFunction(woodFlame); }
+    if (c == '1') { fireplaceSetFlameFunction(embersFlame); }
+    if (c == '2') { fireplaceSetFlameFunction(gasFlame); }
+    if (c == '3') { fireplaceSetFlameFunction(halloweenFlame); }
+    if (c == '4') { fireplaceSetFlameFunction(crystalFlame); }
+    if (c == '5') { fireplaceSetFlameFunction(rainbowFlame); }
     for (int n=0;n<200;n++) {
-      unsigned char intensity = flicker(flickerSpeed, timeMs);
-      if (c == '0') { setColour(woodFlame(intensity)); }
-      if (c == '1') { setColour(embersFlame(intensity)); }
-      if (c == '2') { setColour(gasFlame(intensity)); }
-      if (c == '3') { setColour(halloweenFlame(intensity)); }
-      if (c == '4') { setColour(crystalFlame(intensity)); }
-      if (c == '5') { setColour(rainbowFlame(intensity)); }
+      fireplaceLoop(timeMs, numPixels, [] (int i, Rgb rgb) {
+        setColour(rgb);
+      });
       usleep(frameIntervalMs*1000);
       timeMs += frameIntervalMs;
     }

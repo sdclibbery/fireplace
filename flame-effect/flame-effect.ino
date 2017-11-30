@@ -36,7 +36,7 @@ void setup() {
 }
 
 void loop() {
-  fireplaceLoop(NUMPIXELS, [] (int i, Rgb rgb) {
+  fireplaceLoop(millis(), NUMPIXELS, [] (int i, Rgb rgb) {
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   });
   pixels.show();
