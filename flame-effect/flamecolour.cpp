@@ -17,8 +17,17 @@ static inline unsigned char up (unsigned char x, unsigned char from, unsigned ch
 static inline unsigned char down (unsigned char x, unsigned char from, unsigned char to) {
   return to + fp8Mul(255-x, from-to);
 }
+static unsigned char flicker (unsigned long time) {
+  return 32
+    + fp8Mul(48, fp8Cos(time/19))
+    + fp8Mul(64, fp8Cos(time/31))
+    + fp8Mul(48, fp8Cos(time/73))
+    + fp8Mul(32, fp8Cos(time/753))
+    + fp8Mul(32, fp8Cos(time/1717));
+}
 
-Rgb woodFlame (unsigned char intensity) {
+Rgb woodFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   Rgb rgb = {
     constant(255),
     up(sqr(intensity), 32, 120),
@@ -27,7 +36,8 @@ Rgb woodFlame (unsigned char intensity) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb embersFlame (unsigned char intensity) {
+Rgb embersFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   Rgb rgb = {
     constant(255),
     up(sqr(sqr(intensity)), 0, 80),
@@ -36,7 +46,8 @@ Rgb embersFlame (unsigned char intensity) {
   return rgbScale(rgb, intensity/3);
 }
 
-Rgb gasFlame (unsigned char intensity) {
+Rgb gasFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   Rgb rgb = {
     up(intensity, 0, 255),
     up(sqr(intensity), 0, 160),
@@ -45,7 +56,8 @@ Rgb gasFlame (unsigned char intensity) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb halloweenFlame (unsigned char intensity) {
+Rgb halloweenFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   Rgb rgb = {
     constant(0),
     up(invSqr(intensity), 0, 200),
@@ -54,7 +66,8 @@ Rgb halloweenFlame (unsigned char intensity) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb crystalFlame (unsigned char intensity) {
+Rgb crystalFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   static Rgb white = {255, 255, 255};
   if (intensity == 210) { return white; }
   Rgb rgb = {
@@ -65,7 +78,8 @@ Rgb crystalFlame (unsigned char intensity) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb rainbowFlame (unsigned char intensity) {
+Rgb rainbowFlame (unsigned long time) {
+  unsigned char intensity = flicker(time);
   Rgb rgb = {
     fp8Cos(intensity+85),
     fp8Cos(intensity),

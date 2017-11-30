@@ -1,17 +1,14 @@
 #include <stdlib.h>
 
 #include "fireplace.h"
-#include "flicker.h"
 #include "flamecolour.h"
 
 /*
 ToDo:
-Use fireplace.cpp in PC test build
- With arrays of option info plus get,set
 Have smoother crystal and rainbow effects
  Pass time into flamecolour and have flamecolour call flicker
 Rainbow moves along string of LEDs, instead of each LED havingits own individual rainbow effect
- Pass LED index into flamecolour
+ Pass fractional LED index into flamecolour
 Factor out webapp controls
 manual controller
 */
@@ -43,8 +40,7 @@ void fireplaceSetup (unsigned int numPixels) {
 void fireplaceLoop (unsigned long timeMs, unsigned int numPixels, SetColourFunction setColour) {
   for(int i=0;i<numPixels;i++){
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
-    unsigned char intensity = flicker(flickerSpeed, pixelTimeMs);
-    Rgb rgb = rgbScale(flameColour(intensity), brightness);
+    Rgb rgb = rgbScale(flameColour(pixelTimeMs*flickerSpeed), brightness);
     setColour(i, rgb);
   }
 }
