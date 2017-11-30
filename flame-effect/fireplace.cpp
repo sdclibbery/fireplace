@@ -5,8 +5,6 @@
 
 /*
 ToDo:
-Rainbow moves along string of LEDs, instead of each LED havingits own individual rainbow effect
- Pass fractional LED index into flamecolour
 Factor out webapp controls
 manual controller
 */

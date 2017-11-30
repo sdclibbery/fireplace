@@ -70,15 +70,15 @@ Rgb halloweenFlame (unsigned char fractionalPosition, unsigned long time) {
 }
 
 Rgb crystalFlame (unsigned char fractionalPosition, unsigned long time) {
-  unsigned long randomisedTime = time+randomise(fractionalPosition);
+  unsigned long randomisedTime = time/7+randomise(fractionalPosition);
   if (randomisedTime%1000 == 0) {
     static Rgb white = {255, 255, 255};
     return white;
   }
   Rgb rgb = {
     constant(60),
-    down(fp8Cos(time/7+fractionalPosition), 65, 50),
-    up(fp8Cos(time/7+fractionalPosition), 55, 70),
+    down(fp8Cos(randomisedTime), 65, 50),
+    up(fp8Cos(randomisedTime), 55, 70),
   };
   return rgb;
 }
