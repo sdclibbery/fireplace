@@ -50,6 +50,10 @@ int main () {
   fireplaceSetup(numPixels);
   int c = '0';
   while (c != 'q') {
+    printf("Enter number or q\n", c);
+    fflush(stdout);
+    fflush(stdin);
+    c = getc(stdin);
     if (c == '0') { fireplaceSetFlameFunction(woodFlame); }
     if (c == '1') { fireplaceSetFlameFunction(embersFlame); }
     if (c == '2') { fireplaceSetFlameFunction(gasFlame); }
@@ -64,10 +68,6 @@ int main () {
       usleep(frameIntervalMs*1000);
       timeMs += frameIntervalMs;
     }
-    printf("Enter number or q\n", c);
-    fflush(stdout);
-    fflush(stdin);
-    c = getc(stdin);
   }
   return 0;
 }

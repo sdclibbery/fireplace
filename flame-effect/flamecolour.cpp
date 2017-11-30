@@ -73,18 +73,17 @@ Rgb crystalFlame (unsigned long time) {
   }
   Rgb rgb = {
     constant(60),
-    down(fpCos(time/7), 65, 50),
-    up(fpCos(time/7), 55, 70),
+    down(fp8Cos(time/7), 65, 50),
+    up(fp8Cos(time/7), 55, 70),
   };
-  return rgbScale(rgb, intensity);
+  return rgb;
 }
 
 Rgb rainbowFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
   Rgb rgb = {
-    fp8Cos(intensity+85),
-    fp8Cos(intensity),
-    fp8Cos(intensity+170),
+    fp8Cos(time/31),
+    fp8Cos(time/31+85),
+    fp8Cos(time/31+170),
   };
   return rgb;
 }
