@@ -7,10 +7,6 @@
 #include "flamecolour.h"
 #include "flicker.h"
 
-/*
-ToDo
-*/
-
 void fp8Assert (unsigned char expected, unsigned char actual) {
   if (expected != actual) {
     printf("Expected %d but actual %d\n", expected, actual);

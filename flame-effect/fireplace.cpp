@@ -8,11 +8,6 @@
 
 /*
 ToDo:
-Big size for control page when viewed on mobile
-Tweak crystal sparkles
-Tweak gas flame Colours
-Try a reducing green in the wood flame (or add an 'embers' colour)
-Maybe rename flamecolour to 'effect'?
 Pass time into flamecolour and have flamecolour call flicker
  So have smoother crystal and rainbow effects
 Rainbow should have better colours; ie actual Hue
@@ -20,7 +15,6 @@ Factor out fireplace code
  With arrays of option info plus get,set
 Factor out webapp controls
 manual controller
-remember last settings?
 */
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
