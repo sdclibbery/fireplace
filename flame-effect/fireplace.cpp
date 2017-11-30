@@ -8,11 +8,13 @@
 
 /*
 ToDo:
-Pass time into flamecolour and have flamecolour call flicker
- So have smoother crystal and rainbow effects
-Rainbow should have better colours; ie actual Hue
-Factor out fireplace code
+Use fireplace.cpp in PC test build
+ Factor out fireplace code into reusable controller, NeoPixel output and WebServer controls
  With arrays of option info plus get,set
+Have smoother crystal and rainbow effects
+ Pass time into flamecolour and have flamecolour call flicker
+Rainbow moves along string of LEDs, instead of each LED havingits own individual rainbow effect
+ Pass LED index into flamecolour
 Factor out webapp controls
 manual controller
 */
