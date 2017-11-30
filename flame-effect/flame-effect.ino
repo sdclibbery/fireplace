@@ -4,6 +4,7 @@
 #include <DNSServer.h>
 
 #include "fireplace.h"
+#include "webcontroller.h"
 
 // Pin 5: GPIO 5: use D1 pin on lolin nodemcu
 #define PIN            5
@@ -28,6 +29,7 @@ void setup() {
   MDNS.begin(mDnsHostname, WiFi.localIP());
   Serial.println("mDNS started");
 
+  webControllerSetup();
   fireplaceSetup(NUMPIXELS);
 
   pixels.begin();
@@ -38,4 +40,5 @@ void loop() {
     pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
   });
   pixels.show();
+  webControllerLoop();
 }
