@@ -1,3 +1,8 @@
+#pragma once
+#include "rgb.h"
+
+typedef Rgb (*FlameFunction)(unsigned char);
+
 Rgb woodFlame (unsigned char intensity);
 Rgb embersFlame (unsigned char intensity);
 Rgb gasFlame (unsigned char intensity);

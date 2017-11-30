@@ -6,8 +6,6 @@
 /*
 ToDo:
 Use fireplace.cpp in PC test build
- Factor out fireplace code into reusable controller, NeoPixel output and WebServer controls
- Move flame function typedef into flamecolour.h
  With arrays of option info plus get,set
 Have smoother crystal and rainbow effects
  Pass time into flamecolour and have flamecolour call flicker
