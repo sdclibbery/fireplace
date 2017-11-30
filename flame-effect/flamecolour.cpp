@@ -25,9 +25,12 @@ static unsigned char flicker (unsigned long time) {
     + fp8Mul(32, fp8Cos(time/753))
     + fp8Mul(32, fp8Cos(time/1717));
 }
+static unsigned long randomise (unsigned char pos) {
+  return pos*0x17346547;
+}
 
-Rgb woodFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
+Rgb woodFlame (unsigned char fractionalPosition, unsigned long time) {
+  unsigned char intensity = flicker(time+randomise(fractionalPosition));
   Rgb rgb = {
     constant(255),
     up(sqr(intensity), 32, 120),
@@ -36,8 +39,8 @@ Rgb woodFlame (unsigned long time) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb embersFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
+Rgb embersFlame (unsigned char fractionalPosition, unsigned long time) {
+  unsigned char intensity = flicker(time+randomise(fractionalPosition));
   Rgb rgb = {
     constant(255),
     up(sqr(sqr(intensity)), 0, 80),
@@ -46,8 +49,8 @@ Rgb embersFlame (unsigned long time) {
   return rgbScale(rgb, intensity/3);
 }
 
-Rgb gasFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
+Rgb gasFlame (unsigned char fractionalPosition, unsigned long time) {
+  unsigned char intensity = flicker(time+randomise(fractionalPosition));
   Rgb rgb = {
     up(intensity, 0, 255),
     up(sqr(intensity), 0, 160),
@@ -56,8 +59,8 @@ Rgb gasFlame (unsigned long time) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb halloweenFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
+Rgb halloweenFlame (unsigned char fractionalPosition, unsigned long time) {
+  unsigned char intensity = flicker(time+randomise(fractionalPosition));
   Rgb rgb = {
     constant(0),
     up(invSqr(intensity), 0, 200),
@@ -66,24 +69,25 @@ Rgb halloweenFlame (unsigned long time) {
   return rgbScale(rgb, intensity);
 }
 
-Rgb crystalFlame (unsigned long time) {
-  if (time%1000 == 0) {
+Rgb crystalFlame (unsigned char fractionalPosition, unsigned long time) {
+  unsigned long randomisedTime = time+randomise(fractionalPosition);
+  if (randomisedTime%1000 == 0) {
     static Rgb white = {255, 255, 255};
     return white;
   }
   Rgb rgb = {
     constant(60),
-    down(fp8Cos(time/7), 65, 50),
-    up(fp8Cos(time/7), 55, 70),
+    down(fp8Cos(time/7+fractionalPosition), 65, 50),
+    up(fp8Cos(time/7+fractionalPosition), 55, 70),
   };
   return rgb;
 }
 
-Rgb rainbowFlame (unsigned long time) {
+Rgb rainbowFlame (unsigned char fractionalPosition, unsigned long time) {
   Rgb rgb = {
-    fp8Cos(time/31),
-    fp8Cos(time/31+85),
-    fp8Cos(time/31+170),
+    fp8Cos(time/31+fractionalPosition),
+    fp8Cos(time/31+85+fractionalPosition),
+    fp8Cos(time/31+170+fractionalPosition),
   };
   return rgb;
 }
