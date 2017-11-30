@@ -1,8 +1,14 @@
+#include <Adafruit_NeoPixel.h>
 #include <ESP8266mDNS.h>
 #include <WiFiManager.h>
 #include <DNSServer.h>
 
 #include "fireplace.h"
+
+// Pin 5: GPIO 5: use D1 pin on lolin nodemcu
+#define PIN            5
+#define NUMPIXELS      30
+static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
 
 static const char* mDnsHostname = "fireplace";
 
@@ -22,9 +28,14 @@ void setup() {
   MDNS.begin(mDnsHostname, WiFi.localIP());
   Serial.println("mDNS started");
 
-  fireplaceSetup();
+  fireplaceSetup(NUMPIXELS);
+
+  pixels.begin();
 }
 
 void loop() {
-  fireplaceLoop();
+  fireplaceLoop(NUMPIXELS, [] (int i, Rgb rgb) {
+    pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
+  });
+  pixels.show();
 }

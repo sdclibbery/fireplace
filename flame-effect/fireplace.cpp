@@ -1,7 +1,6 @@
-#include <Adafruit_NeoPixel.h>
 #include <ESP8266WebServer.h>
 
-#include "rgb.h"
+#include "fireplace.h"
 #include "flamecolour.h"
 #include "flicker.h"
 #include "fixedpoint.h"
@@ -19,18 +18,13 @@ Factor out webapp controls
 manual controller
 */
 
-// Pin 5: GPIO 5: use D1 pin on lolin nodemcu
-#define PIN            5
-#define NUMPIXELS      30
-static Adafruit_NeoPixel pixels = Adafruit_NeoPixel(NUMPIXELS, PIN, NEO_GRB + NEO_KHZ800);
-
 static ESP8266WebServer server(80);
 
 typedef Rgb (*FlameFunction)(unsigned char);
 static FlameFunction flameColour = &woodFlame;
 static unsigned char brightness = 255;
 static unsigned int flickerSpeed = 7;
-static unsigned long timeMsOffsets[NUMPIXELS];
+static unsigned long* timeMsOffsets = NULL;
 
 static void activateColourIfInArgs (String argValue, FlameFunction func) {
   if (server.arg("colour") == argValue) { flameColour = func; }
@@ -79,26 +73,25 @@ static auto respondWithControlPage = [](){
   server.send(200, "text/html", content);
 };
 
-void fireplaceSetup (void) {
+void fireplaceSetup (unsigned int numPixels) {
   server.on("/", respondWithControlPage);
   server.onNotFound([]() { server.send(404, "text/plain", "404 not found"); });
   server.begin();
   Serial.println("Server started");
 
-  for(int i=0;i<NUMPIXELS;i++){
+  timeMsOffsets = new unsigned long [numPixels];
+  for(int i=0;i<numPixels;i++){
     timeMsOffsets[i] = random(100000);
   }
-  pixels.begin();
 }
 
-void fireplaceLoop (void) {
+void fireplaceLoop (unsigned int numPixels, SetColourFunction setColour) {
   unsigned long timeMs = millis();
-  for(int i=0;i<NUMPIXELS;i++){
+  for(int i=0;i<numPixels;i++){
     unsigned long pixelTimeMs = timeMs + timeMsOffsets[i];
     unsigned char intensity = flicker(flickerSpeed, pixelTimeMs);
     Rgb rgb = rgbScale(flameColour(intensity), brightness);
-    pixels.setPixelColor(i, pixels.Color(rgb.r, rgb.g, rgb.b));
+    setColour(i, rgb);
   }
-  pixels.show();
   server.handleClient();
 }
