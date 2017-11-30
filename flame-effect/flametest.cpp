@@ -48,15 +48,23 @@ int main () {
   unsigned long timeMs = 0;
   unsigned int frameIntervalMs = 10;
   unsigned int flickerSpeed = 20;
-  while (1) { // Use Ctrl-C to exit :-)
-    unsigned char intensity = flicker(flickerSpeed, timeMs);
-    if (timeMs/3000 % 5 == 0) { setColour(woodFlame(intensity)); }
-    if (timeMs/3000 % 5 == 1) { setColour(gasFlame(intensity)); }
-    if (timeMs/3000 % 5 == 2) { setColour(halloweenFlame(intensity)); }
-    if (timeMs/3000 % 5 == 3) { setColour(crystalFlame(intensity)); }
-    if (timeMs/3000 % 5 == 4) { setColour(rainbowFlame(intensity)); }
-    usleep(frameIntervalMs*1000);
-    timeMs += frameIntervalMs;
+  int c = '0';
+  while (c != 'q') {
+    for (int n=0;n<200;n++) {
+      unsigned char intensity = flicker(flickerSpeed, timeMs);
+      if (c == '0') { setColour(woodFlame(intensity)); }
+      if (c == '1') { setColour(embersFlame(intensity)); }
+      if (c == '2') { setColour(gasFlame(intensity)); }
+      if (c == '3') { setColour(halloweenFlame(intensity)); }
+      if (c == '4') { setColour(crystalFlame(intensity)); }
+      if (c == '5') { setColour(rainbowFlame(intensity)); }
+      usleep(frameIntervalMs*1000);
+      timeMs += frameIntervalMs;
+    }
+    printf("Enter number or q\n", c);
+    fflush(stdout);
+    fflush(stdin);
+    c = getc(stdin);
   }
   return 0;
 }
