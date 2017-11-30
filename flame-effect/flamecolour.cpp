@@ -67,13 +67,14 @@ Rgb halloweenFlame (unsigned long time) {
 }
 
 Rgb crystalFlame (unsigned long time) {
-  unsigned char intensity = flicker(time);
-  static Rgb white = {255, 255, 255};
-  if (intensity == 210) { return white; }
+  if (time%1000 == 0) {
+    static Rgb white = {255, 255, 255};
+    return white;
+  }
   Rgb rgb = {
     constant(60),
-    down(intensity, 65, 50),
-    up(intensity, 55, 70),
+    down(fpCos(time/7), 65, 50),
+    up(fpCos(time/7), 55, 70),
   };
   return rgbScale(rgb, intensity);
 }
