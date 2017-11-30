@@ -27,16 +27,15 @@ void unittest (void) {
   fp8Assert(255, fp8Cos(255));
 }
 
-static void backspaceBlock () {
-  printf("\033[F");
+static void carriageReturn () {
+  printf("\x0D");
 }
 
 static void printColouredBlock (Rgb rgb) {
-  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\u2588\u2588\n\u2588\u2588\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
+  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
 }
 
 static void setColour (Rgb rgb) {
-  backspaceBlock();
   printColouredBlock(rgb);
   fflush(stdout);
 }
@@ -47,7 +46,7 @@ int main () {
   printColouredBlock(black);
   unsigned long timeMs = 0;
   unsigned int frameIntervalMs = 10;
-  unsigned int numPixels = 1;
+  unsigned int numPixels = 30;
   fireplaceSetup(numPixels);
   int c = '0';
   while (c != 'q') {
@@ -58,6 +57,7 @@ int main () {
     if (c == '4') { fireplaceSetFlameFunction(crystalFlame); }
     if (c == '5') { fireplaceSetFlameFunction(rainbowFlame); }
     for (int n=0;n<200;n++) {
+      carriageReturn();
       fireplaceLoop(timeMs, numPixels, [] (int i, Rgb rgb) {
         setColour(rgb);
       });
