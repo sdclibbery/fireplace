@@ -49,11 +49,12 @@ int main () {
   unsigned int numPixels = 30;
   fireplaceSetup(numPixels);
   int c = '0';
-  while (c != 'q') {
-    printf("Enter number or q\n", c);
+  while (true) {
+    puts("Enter number or q\n");
     fflush(stdout);
     fflush(stdin);
     c = getc(stdin);
+    if (c == 'q') { break; }
     if (c == '0') { fireplaceSetFlameFunction(woodFlame); }
     if (c == '1') { fireplaceSetFlameFunction(embersFlame); }
     if (c == '2') { fireplaceSetFlameFunction(gasFlame); }
