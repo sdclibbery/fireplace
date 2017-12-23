@@ -9,3 +9,4 @@ Rgb gasFlame (unsigned char fractionalPosition, unsigned long time);
 Rgb halloweenFlame (unsigned char fractionalPosition, unsigned long time);
 Rgb rainbowFlame (unsigned char fractionalPosition, unsigned long time);
 Rgb crystalFlame (unsigned char fractionalPosition, unsigned long time);
+Rgb purpleBlingFlame (unsigned char fractionalPosition, unsigned long time);

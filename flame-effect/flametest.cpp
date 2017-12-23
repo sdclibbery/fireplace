@@ -61,6 +61,7 @@ int main () {
     if (c == '3') { fireplaceSetFlameFunction(halloweenFlame); }
     if (c == '4') { fireplaceSetFlameFunction(crystalFlame); }
     if (c == '5') { fireplaceSetFlameFunction(rainbowFlame); }
+    if (c == '6') { fireplaceSetFlameFunction(purpleBlingFlame); }
     for (int n=0;n<200;n++) {
       carriageReturn();
       fireplaceLoop(timeMs, numPixels, [] (int i, Rgb rgb) {

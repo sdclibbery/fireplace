@@ -33,6 +33,8 @@ static auto respondWithControlPage = [](){
   content += renderColourMarkup("crystalFlame", "Crystal");
   activateColourIfInArgs("rainbowFlame", &rainbowFlame);
   content += renderColourMarkup("rainbowFlame", "Rainbow");
+  activateColourIfInArgs("purpleBlingFlame", &purpleBlingFlame);
+  content += renderColourMarkup("purpleBlingFlame", "Purple Bling");
 
   content += "<h3>Brightness</h3>";
   Serial.println(String("Brightness: ")+server.arg("brightness"));
