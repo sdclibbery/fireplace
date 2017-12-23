@@ -28,11 +28,11 @@ void unittest (void) {
 }
 
 static void carriageReturn () {
-  printf("\x0D");
+  printf("\r\n");
 }
 
 static void printColouredBlock (Rgb rgb) {
-  printf("\x1b[38;2;%d;%d;%dm\u2588\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
+  printf("\x1b[38;2;%d;%d;%dm\u2588\x1b[0m", rgb.r, rgb.g, rgb.b);
 }
 
 static void setColour (Rgb rgb) {
