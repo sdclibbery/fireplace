@@ -93,15 +93,17 @@ Rgb rainbowFlame (unsigned char fractionalPosition, unsigned long time) {
 }
 
 Rgb purpleBlingFlame (unsigned char fractionalPosition, unsigned long time) {
-  unsigned long randomisedTime = time/7+randomise(fractionalPosition);
-  if (randomisedTime%500 == 0) {
-    static Rgb white = {255, 255, 255};
-    return white;
+  if (fp8Cos(time/37-fractionalPosition*2) > 200) {
+    unsigned char silverAmount = up(fp8Cos(time/29+fractionalPosition), 190, 255);
+    Rgb rgb = { silverAmount, silverAmount, silverAmount };
+    return rgb;
+  } else {
+    unsigned char purpleAmount = fp8Cos(time/31+fractionalPosition);
+    Rgb rgb = {
+      up(purpleAmount, 140, 190),
+      0,
+      up(purpleAmount, 120, 220)
+    };
+    return rgb;
   }
-  Rgb rgb = {
-    up(fp8Cos(time/31+fractionalPosition), 130, 170),
-    0,
-    up(fp8Cos(time/31+fractionalPosition), 100, 200)
-  };
-  return rgb;
 }
